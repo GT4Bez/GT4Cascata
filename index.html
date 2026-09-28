@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metodologia em Cascata</title>
+<meta name="description" content="Apresentação sobre a metodologia de desenvolvimento em Cascata (Waterfall).">
+<style>
+  :root {
+    --azul: #1e4d8c;
+    --azul-2: #255da0;
+    --azul-3: #2f6fb3;
+    --azul-4: #3b82c4;
+    --azul-claro: #eef4fb;
+    --texto: #1f2937;
+    --cinza: #9ca3af;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--texto);
+    background: #0f1b2d;
+    overflow: hidden;
+  }
+
+  /* Palco: slides em 1280x720, escalados para caber na tela */
+  #palco {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px; height: 720px;
+    transform-origin: center center;
+  }
+  .slide {
+    position: absolute; inset: 0;
+    background: #fff;
+    padding: 70px 90px 60px 110px;
+    opacity: 0; visibility: hidden;
+    transform: translateX(40px);
+    transition: opacity .45s ease, transform .45s ease, visibility .45s;
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    overflow: hidden;
+  }
+  .slide.ativo { opacity: 1; visibility: visible; transform: none; }
+  .slide.anterior { transform: translateX(-40px); }
+  .slide::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 18px;
+    background: linear-gradient(var(--azul), var(--azul-4));
+  }
+
+  .tag { font-size: 18px; letter-spacing: 3px; text-transform: uppercase; color: var(--azul-4); font-weight: 700; margin-bottom: 14px; }
+  h1 { font-size: 54px; color: var(--azul); margin-bottom: 36px; line-height: 1.15; }
+  h2 { font-size: 30px; color: var(--azul); margin-bottom: 20px; }
+  p, li { font-size: 28px; line-height: 1.5; }
+  ul, ol { padding-left: 36px; }
+  li { margin-bottom: 14px; }
+  b { color: var(--azul); }
+  .rodape { position: absolute; bottom: 28px; left: 110px; right: 90px; display: flex; justify-content: space-between; font-size: 16px; color: var(--cinza); }
+  .box { background: var(--azul-claro); border-left: 6px solid var(--azul-4); padding: 20px 26px; border-radius: 6px; margin-top: 22px; }
+  .box p { font-size: 24px; }
+
+  /* Capa */
+  .capa { background: linear-gradient(135deg, var(--azul) 0%, var(--azul-3) 100%); color: #fff; display: flex; flex-direction: column; justify-content: center; }
+  .capa::before { display: none; }
+  .capa .tag { color: #bcd6f2; }
+  .capa h1 { color: #fff; font-size: 76px; margin-bottom: 20px; }
+  .capa p { font-size: 30px; opacity: .9; }
+  .etapas { display: flex; gap: 14px; margin-top: 60px; align-items: center; }
+  .etapa { background: rgba(255,255,255,.15); padding: 12px 20px; border-radius: 6px; font-size: 20px; }
+  .seta { font-size: 22px; opacity: .8; }
+  .dica { position: absolute; bottom: 36px; left: 110px; font-size: 18px; opacity: .7; }
+
+  /* Fluxo em cascata */
+  .colunas { display: flex; gap: 60px; align-items: flex-start; }
+  .colunas > div { flex: 1; }
+  .fluxo { display: flex; flex-direction: column; gap: 10px; }
+  .fluxo div { color: #fff; font-size: 24px; padding: 12px 22px; border-radius: 6px; width: 480px; white-space: nowrap; }
+  .fluxo div:nth-child(1) { background: var(--azul); }
+  .fluxo div:nth-child(2) { background: var(--azul-2); margin-left: 60px; }
+  .fluxo div:nth-child(3) { background: var(--azul-3); margin-left: 120px; }
+  .fluxo div:nth-child(4) { background: var(--azul-4); margin-left: 180px; }
+  .slide.ativo .fluxo div { animation: cair .5s ease both; }
+  .slide.ativo .fluxo div:nth-child(2) { animation-delay: .15s; }
+  .slide.ativo .fluxo div:nth-child(3) { animation-delay: .3s; }
+  .slide.ativo .fluxo div:nth-child(4) { animation-delay: .45s; }
+  @keyframes cair { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: none; } }
+
+  /* Autenticação */
+  .grade { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .card { background: var(--azul-claro); border-radius: 8px; padding: 18px 22px; }
+  .card h3 { font-size: 24px; color: var(--azul); margin-bottom: 6px; }
+  .card p { font-size: 21px; line-height: 1.4; }
+
+  /* Casa */
+  .casa { display: flex; align-items: center; gap: 22px; margin: 30px 0 40px; }
+  .casa span { background: var(--azul); color: #fff; font-size: 30px; padding: 18px 30px; border-radius: 8px; }
+  .casa em { font-size: 36px; color: var(--azul-4); font-style: normal; }
+  .slide.ativo .casa span { animation: cair .5s ease both; }
+  .slide.ativo .casa span:nth-of-type(2) { animation-delay: .25s; }
+  .slide.ativo .casa span:nth-of-type(3) { animation-delay: .5s; }
+
+  /* Controles */
+  #controles {
+    position: fixed; bottom: 16px; right: 16px;
+    display: flex; gap: 8px; align-items: center;
+    background: rgba(15,27,45,.75); padding: 6px 10px; border-radius: 999px;
+    color: #fff; font-size: 14px; z-index: 10;
+    transition: opacity .3s;
+  }
+  #controles button {
+    background: transparent; border: 0; color: #fff; cursor: pointer;
+    width: 34px; height: 34px; border-radius: 50%; font-size: 18px; line-height: 1;
+  }
+  #controles button:hover, #controles button:focus-visible { background: rgba(255,255,255,.18); outline: none; }
+  #contador { min-width: 48px; text-align: center; font-variant-numeric: tabular-nums; }
+  #progresso { position: fixed; top: 0; left: 0; height: 4px; background: var(--azul-4); transition: width .4s ease; z-index: 10; }
+  body.ocioso #controles { opacity: 0; }
+  body.ocioso { cursor: none; }
+
+  /* Impressão: um slide por página */
+  @media print {
+    @page { size: 1280px 720px; margin: 0; }
+    body { background: #fff; overflow: visible; }
+    #palco { position: static; transform: none !important; width: auto; height: auto; }
+    .slide { position: relative; opacity: 1; visibility: visible; transform: none; width: 1280px; height: 720px; box-shadow: none; page-break-after: always; }
+    #controles, #progresso { display: none; }
+    .fluxo div, .casa span { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progresso"></div>
+
+<main id="palco" aria-live="polite">
+
+  <section class="slide capa" aria-label="Capa">
+    <p class="tag">Metodologias de desenvolvimento</p>
+    <h1>Metodologia em Cascata</h1>
+    <p>Waterfall: uma etapa de cada vez, do início ao fim</p>
+    <div class="etapas">
+      <span class="etapa">Requisitos</span><span class="seta">→</span>
+      <span class="etapa">Desenvolvimento</span><span class="seta">→</span>
+      <span class="etapa">Testes</span><span class="seta">→</span>
+      <span class="etapa">Entrega</span>
+    </div>
+    <p class="dica">Use ← → ou espaço para navegar · F para tela cheia</p>
+  </section>
+
+  <section class="slide" aria-label="O que é?">
+    <p class="tag">01</p>
+    <h1>O que é?</h1>
+    <ul>
+      <li>Forma de organizar o desenvolvimento em que o <b>sistema inteiro</b> é construído de uma vez</li>
+      <li>A entrega acontece <b>só no final</b></li>
+      <li>Mais importante do que decorar o nome: entender <b>como ela organiza o trabalho</b></li>
+    </ul>
+    <div class="rodape"><span>Metodologia em Cascata</span><span>2</span></div>
+  </section>
+
+  <section class="slide" aria-label="Como funciona?">
+    <p class="tag">02</p>
+    <h1>Como funciona?</h1>
+    <div class="colunas">
+      <div class="fluxo">
+        <div>1. Levantar e documentar requisitos</div>
+        <div>2. Desenvolver peça por peça</div>
+        <div>3. Testar</div>
+        <div>4. Entregar</div>
+      </div>
+      <div>
+        <ul>
+          <li>Cada etapa só começa quando a anterior <b>termina</b></li>
+          <li>Depois da entrega, a ideia é <b>não mexer mais</b></li>
+        </ul>
+      </div>
+    </div>
+    <div class="rodape"><span>Metodologia em Cascata</span><span>3</span></div>
+  </section>
+
+  <section class="slide" aria-label="Vantagem">
+    <p class="tag">03</p>
+    <h1>Vantagem</h1>
+    <h2>Organização e previsibilidade</h2>
+    <ul>
+      <li>Quando o negócio já foi entendido por completo, se sabe <b>exatamente</b> o que será feito</li>
+      <li>Tudo documentado</li>
+      <li>Etapas claras do início ao fim</li>
+    </ul>
+    <div class="rodape"><span>Metodologia em Cascata</span><span>4</span></div>
+  </section>
+
+  <section class="slide" aria-label="Desvantagem">
+    <p class="tag">04</p>
+    <h1>Desvantagem</h1>
+    <h2>Mudanças custam caro</h2>
+    <ul>
+      <li>O cliente só vê o sistema pronto, às vezes depois de <b>meses</b></li>
+      <li>Os detalhes reais aparecem <b>tarde demais</b></li>
+    </ul>
+    <div class="box">
+      <p><b>Exemplo: sistema de barbearia.</b> "Registrar pagamento", "agendar" e "melhor cliente do mês" escondem regras: pagamento online ou só registro? Conflito de horários? Qual barbeiro faz cada serviço? Cancelamento?</p>
+    </div>
+    <div class="rodape"><span>Metodologia em Cascata</span><span>5</span></div>
+  </section>
+
+  <section class="slide" aria-label="Quando faz sentido usar">
+    <p class="tag">05</p>
+    <h1>Quando faz sentido usar</h1>
+    <h2>Módulo de autenticação: fluxos conhecidos e estáveis</h2>
+    <div class="grade">
+      <div class="card"><h3>1. Cadastro</h3><p>Usuário/e-mail, senha e confirmação</p></div>
+      <div class="card"><h3>2. Login</h3><p>Com usuário ou e-mail</p></div>
+      <div class="card"><h3>3. Recuperar senha</h3><p>E-mail → token → nova senha</p></div>
+      <div class="card"><h3>4. Trocar senha</h3><p>Quando o usuário lembra a atual</p></div>
+    </div>
+    <div class="box" style="margin-top:20px"><p>Ideal quando há muita certeza de que tudo já foi entendido.</p></div>
+    <div class="rodape"><span>Metodologia em Cascata</span><span>6</span></div>
+  </section>
+
+  <section class="slide" aria-label="Analogia">
+    <p class="tag">06</p>
+    <h1>Analogia: construir uma casa</h1>
+    <div class="casa">
+      <span>Fundação</span><em>→</em><span>Parede</span><em>→</em><span>Telhado</span>
+    </div>
+    <p>Ninguém começa o segundo andar para só depois descobrir onde fica a fundação.</p>
+    <div class="rodape"><span>Metodologia em Cascata</span><span>7</span></div>
+  </section>
+
+</main>
+
+<nav id="controles" aria-label="Navegação dos slides">
+  <button id="btnAnterior" title="Anterior (←)" aria-label="Slide anterior">‹</button>
+  <span id="contador">1 / 7</span>
+  <button id="btnProximo" title="Próximo (→)" aria-label="Próximo slide">›</button>
+  <button id="btnTela" title="Tela cheia (F)" aria-label="Tela cheia">⛶</button>
+</nav>
+
+<script>
+(() => {
+  const palco = document.getElementById('palco');
+  const slides = [...document.querySelectorAll('.slide')];
+  const contador = document.getElementById('contador');
+  const progresso = document.getElementById('progresso');
+  const total = slides.length;
+  let atual = 0;
+
+  // Ajusta a escala do palco para caber na janela
+  const ajustarEscala = () => {
+    const escala = Math.min(window.innerWidth / 1280, window.innerHeight / 720) * 0.96;
+    palco.style.transform = `translate(-50%, -50%) scale(${escala})`;
+  };
+
+  const irPara = (n) => {
+    n = Math.max(0, Math.min(total - 1, n));
+    slides.forEach((s, i) => {
+      s.classList.toggle('ativo', i === n);
+      s.classList.toggle('anterior', i < n);
+    });
+    atual = n;
+    contador.textContent = `${n + 1} / ${total}`;
+    progresso.style.width = `${((n + 1) / total) * 100}%`;
+    history.replaceState(null, '', `#${n + 1}`);
+  };
+
+  const proximo = () => irPara(atual + 1);
+  const anterior = () => irPara(atual - 1);
+  const telaCheia = () => {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+    else document.exitFullscreen?.();
+  };
+
+  document.getElementById('btnProximo').addEventListener('click', proximo);
+  document.getElementById('btnAnterior').addEventListener('click', anterior);
+  document.getElementById('btnTela').addEventListener('click', telaCheia);
+
+  document.addEventListener('keydown', (e) => {
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': case 'PageDown': case ' ': case 'Enter':
+        e.preventDefault(); proximo(); break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp': case 'Backspace':
+        e.preventDefault(); anterior(); break;
+      case 'Home': irPara(0); break;
+      case 'End': irPara(total - 1); break;
+      case 'f': case 'F': telaCheia(); break;
+    }
+  });
+
+  // Clique no slide: metade direita avança, metade esquerda volta
+  palco.addEventListener('click', (e) => {
+    (e.clientX > window.innerWidth / 2) ? proximo() : anterior();
+  });
+
+  // Gestos de toque (celular/tablet)
+  let toqueX = null;
+  document.addEventListener('touchstart', (e) => { toqueX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    if (toqueX === null) return;
+    const dx = e.changedTouches[0].clientX - toqueX;
+    if (Math.abs(dx) > 50) (dx < 0 ? proximo : anterior)();
+    toqueX = null;
+  });
+
+  // Esconde controles e cursor quando o mouse fica parado
+  let timer;
+  const acordar = () => {
+    document.body.classList.remove('ocioso');
+    clearTimeout(timer);
+    timer = setTimeout(() => document.body.classList.add('ocioso'), 2500);
+  };
+  document.addEventListener('mousemove', acordar);
+  acordar();
+
+  window.addEventListener('resize', ajustarEscala);
+  ajustarEscala();
+
+  const inicial = parseInt(location.hash.slice(1), 10);
+  irPara(Number.isFinite(inicial) ? inicial - 1 : 0);
+})();
+</script>
+</body>
+</html>
