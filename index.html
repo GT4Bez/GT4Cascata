@@ -91,13 +91,14 @@
   .card h3 { font-size: 24px; color: var(--azul); margin-bottom: 6px; }
   .card p { font-size: 21px; line-height: 1.4; }
 
-  /* Casa */
-  .casa { display: flex; align-items: center; gap: 22px; margin: 30px 0 40px; }
-  .casa span { background: var(--azul); color: #fff; font-size: 30px; padding: 18px 30px; border-radius: 8px; }
-  .casa em { font-size: 36px; color: var(--azul-4); font-style: normal; }
+  /* Analogia */
+  .casa { display: flex; align-items: center; gap: 14px; margin: 30px 0 40px; }
+  .casa span { background: var(--azul); color: #fff; font-size: 22px; padding: 16px 22px; border-radius: 8px; font-weight: 600; }
+  .casa em { font-size: 26px; color: var(--azul-4); font-style: normal; }
   .slide.ativo .casa span { animation: cair .5s ease both; }
-  .slide.ativo .casa span:nth-of-type(2) { animation-delay: .25s; }
-  .slide.ativo .casa span:nth-of-type(3) { animation-delay: .5s; }
+  .slide.ativo .casa span:nth-of-type(2) { animation-delay: .15s; }
+  .slide.ativo .casa span:nth-of-type(3) { animation-delay: .3s; }
+  .slide.ativo .casa span:nth-of-type(4) { animation-delay: .45s; }
 
   /* Controles */
   #controles {
@@ -220,11 +221,11 @@
 
   <section class="slide" aria-label="Analogia">
     <p class="tag">06</p>
-    <h1>Analogia: construir uma casa</h1>
+    <h1>Analogia: lançamento de foguete</h1>
     <div class="casa">
-      <span>Fundação</span><em>→</em><span>Parede</span><em>→</em><span>Telhado</span>
+      <span>Cálculo de Trajetória</span><em>→</em><span>Construção</span><em>→</em><span>Simulação Extrema</span><em>→</em><span>Lançamento</span>
     </div>
-    <p>Ninguém começa o segundo andar para só depois descobrir onde fica a fundação.</p>
+    <p>Depois da ignição, <b>não há como redesenhar o foguete em pleno voo</b>. Tudo precisa ter sido planejado, documentado e exaustivamente testado antes de decolar.</p>
     <div class="rodape"><span>Metodologia em Cascata</span><span>7</span></div>
   </section>
 
