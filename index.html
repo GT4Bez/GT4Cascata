@@ -93,19 +93,6 @@
   .card h3 { font-size: 24px; color: var(--azul); margin-bottom: 6px; }
   .card p { font-size: 21px; line-height: 1.4; }
 
-  /* Lista de Vantagens e Desvantagens */
-  .pontos { list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
-  .pontos li { font-size: 20px; line-height: 1.45; position: relative; padding-left: 36px; margin-bottom: 0; color: #374151; }
-  .pontos li strong { color: var(--azul); font-weight: 700; }
-  .pontos li::before {
-    content: "✓"; position: absolute; left: 0; top: -1px;
-    font-size: 22px; font-weight: 700; color: #059669; line-height: 1;
-  }
-  .pontos.negativo li strong { color: #b91c1c; }
-  .pontos.negativo li::before {
-    content: "✕"; color: #dc2626; font-size: 20px; font-weight: 700;
-  }
-
   /* Analogia */
   .casa { display: flex; align-items: center; gap: 14px; margin: 30px 0 40px; }
   .casa span { background: var(--azul); color: #fff; font-size: 22px; padding: 16px 22px; border-radius: 8px; font-weight: 600; }
@@ -195,29 +182,29 @@
     <div class="rodape"><span>Metodologia em Cascata</span><span>3</span></div>
   </section>
 
-  <section class="slide" aria-label="Principais Vantagens">
+  <section class="slide" aria-label="Vantagem">
     <p class="tag">03</p>
-    <h1>Principais Vantagens</h1>
-    <ul class="pontos">
-      <li><strong>Documentação rica e detalhada:</strong> tudo é formalizado antes do código, facilitando manutenção e entrada de novos membros.</li>
-      <li><strong>Previsibilidade de prazo e custo:</strong> escopo congelado permite orçamentos precisos e datas de entrega confiáveis.</li>
-      <li><strong>Gestão linear e transparente:</strong> fases bem delimitadas com marcos (<i>milestones</i>) claros para acompanhamento.</li>
-      <li><strong>Alinhamento inicial de expectativas:</strong> cliente e equipe validam o escopo completo antes da primeira linha de código.</li>
-      <li><strong>Alta eficiência em regras consolidadas:</strong> ideal para projetos regulatórios ou módulos estáveis onde não há incertezas.</li>
+    <h1>Vantagem</h1>
+    <h2>Organização e previsibilidade</h2>
+    <ul>
+      <li>Quando o negócio já foi entendido por completo, se sabe <b>exatamente</b> o que será feito</li>
+      <li>Tudo documentado</li>
+      <li>Etapas claras do início ao fim</li>
     </ul>
     <div class="rodape"><span>Metodologia em Cascata</span><span>4</span></div>
   </section>
 
-  <section class="slide" aria-label="Principais Desvantagens">
+  <section class="slide" aria-label="Desvantagem">
     <p class="tag">04</p>
-    <h1>Principais Desvantagens</h1>
-    <ul class="pontos negativo">
-      <li><strong>Custo altíssimo para mudanças:</strong> alterações tardias exigem refazer documentos, arquitetura e código pronto.</li>
-      <li><strong>Feedback tardio do cliente:</strong> o cliente só vê o sistema no final; se houver divergência, descobre-se tarde demais.</li>
-      <li><strong>Acúmulo de testes e bugs no final:</strong> falhas de integração complexas só aparecem perto da entrega, gerando atrasos.</li>
-      <li><strong>Sensação de "progresso invisível":</strong> longos meses de especificação sem telas navegáveis para mostrar aos patrocinadores.</li>
-      <li><strong>Inflexibilidade para incertezas:</strong> incompatível com projetos inovadores ou startups onde os requisitos evoluem com o uso.</li>
+    <h1>Desvantagem</h1>
+    <h2>Mudanças custam caro</h2>
+    <ul>
+      <li>O cliente só vê o sistema pronto, às vezes depois de <b>meses</b></li>
+      <li>Os detalhes reais aparecem <b>tarde demais</b></li>
     </ul>
+    <div class="box">
+      <p><b>Exemplo: sistema de barbearia.</b> "Registrar pagamento", "agendar" e "melhor cliente do mês" escondem regras: pagamento online ou só registro? Conflito de horários? Qual barbeiro faz cada serviço? Cancelamento?</p>
+    </div>
     <div class="rodape"><span>Metodologia em Cascata</span><span>5</span></div>
   </section>
 
